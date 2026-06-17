@@ -28,8 +28,9 @@ service cloud.firestore {
     match /users/{userId} {
       // Cualquier usuario autenticado puede leer perfiles
       allow read: if isAuthenticated();
-      // Solo el propio usuario puede actualizar su perfil
-      allow update: if isOwner(userId);
+      // El propio usuario edita su perfil; el admin puede cambiar roles
+      // (necesario para promover/quitar barberos).
+      allow update: if isOwner(userId) || isAdmin();
       // Solo admins pueden crear/eliminar usuarios
       allow create: if isAuthenticated();
       allow delete: if isAdmin();
@@ -53,12 +54,11 @@ service cloud.firestore {
 
     // ===== CITAS =====
     match /appointments/{appointmentId} {
-      // El cliente, barbero asignado o admin pueden leer
-      allow read: if isAuthenticated() && (
-        resource.data.clientId == request.auth.uid ||
-        resource.data.barberId == request.auth.uid ||
-        isAdmin()
-      );
+      // Lectura para usuarios autenticados: el cliente necesita consultar
+      // las citas del barbero para calcular los horarios disponibles al
+      // reservar. (MVP: en V2 conviene mover la disponibilidad a un
+      // documento agregado para no exponer datos de otras citas.)
+      allow read: if isAuthenticated();
       // Clientes pueden crear citas
       allow create: if isAuthenticated() &&
         request.resource.data.clientId == request.auth.uid;

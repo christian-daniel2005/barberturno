@@ -60,8 +60,40 @@ Las reglas estan en `firestore.rules`. Resumen:
 - Clientes crean citas, barberos confirman/rechazan, admins ven todo
 - Solo admins gestionan servicios y barberos
 
-## MVP v1 (Version actual)
-Modulos: auth, cliente (reservar/cancelar citas), barbero (agenda, confirmar/rechazar), admin (CRUD servicios/barberos, horarios, ingresos basicos), sistema (motor de disponibilidad, notificaciones).
+## MVP v1 (Version actual) - Especificacion completa
+Objetivo: resolver la gestion informal de citas en barberias independientes. Cada modulo tiene exactamente 5 funciones.
+
+### Modulo Cliente
+1. Registro e inicio de sesion        [HECHO]
+2. Visualizacion de servicios          [pendiente]
+3. Seleccion de barbero                [pendiente]
+4. Reserva de cita                     [pendiente]
+5. Consulta y cancelacion de citas     [pendiente]
+
+### Modulo Barbero
+1. Visualizacion de agenda diaria      [pendiente]
+2. Confirmacion de citas               [pendiente]
+3. Rechazo de citas                    [pendiente]
+4. Bloqueo de horarios no disponibles  [pendiente]
+5. Marcado de clientes atendidos       [pendiente]
+
+### Modulo Administrador
+1. Gestion de servicios (CRUD)         [pendiente]
+2. Gestion de barberos (CRUD)          [pendiente]
+3. Visualizacion de citas programadas  [pendiente]
+4. Configuracion de horarios generales [pendiente]
+5. Consulta basica de ingresos diarios [pendiente]
+
+### Funcionalidades del Sistema
+1. Autenticacion de usuarios           [HECHO]
+2. Gestion de reservas                 [pendiente]
+3. Motor de disponibilidad de horarios [pendiente]
+4. Notificaciones de confirmacion      [pendiente]
+5. Base de datos centralizada          [HECHO - Firestore]
+
+### Fuera del MVP v1 (NO implementar todavia)
+- V2: historial, reprogramacion, perfil avanzado, agenda semanal/mensual, estadisticas, reportes, recordatorios automaticos
+- V3: sistema de puntos, recompensas, promociones, multiples sucursales, pagos digitales
 
 ## Notas
 - El proyecto se desplegara en Google Play Store (produccion real, no solo academico)

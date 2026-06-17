@@ -6,6 +6,15 @@ build/
 .flutter-plugins
 .flutter-plugins-dependencies
 
+# Node / herramientas auxiliares (no forman parte de la app)
+node_modules/
+package.json
+package-lock.json
+
+# Archivos temporales de Office
+~$*.docx
+~$*.doc
+
 # Android
 **/android/**/gradle-wrapper.jar
 **/android/.gradle

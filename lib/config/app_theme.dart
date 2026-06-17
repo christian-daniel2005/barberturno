@@ -4,31 +4,38 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTheme {
   AppTheme._();
 
-  // Colores principales de BarberTurno
-  static const Color primaryColor = Color(0xFF1A1A2E);    // Azul oscuro elegante
-  static const Color secondaryColor = Color(0xFFE94560);   // Rojo acento
-  static const Color accentColor = Color(0xFF0F3460);      // Azul medio
-  static const Color backgroundColor = Color(0xFFF5F5F5);  // Gris claro
-  static const Color surfaceColor = Color(0xFFFFFFFF);
-  static const Color errorColor = Color(0xFFE53935);
-  static const Color successColor = Color(0xFF43A047);
-  static const Color warningColor = Color(0xFFFFA726);
+  // Colores principales de BarberTurno - Paleta Cobre/Bronce Premium
+  static const Color primaryColor = Color(0xFFB8860B);      // Cobre/Bronce principal
+  static const Color secondaryColor = Color(0xFFE8D4B8);    // Crema secundario
+  static const Color accentColor = Color(0xFF1A1A1A);       // Negro base
+  static const Color backgroundColor = Color(0xFF1A1A1A);   // Negro profundo
+  static const Color surfaceColor = Color(0xFF2D2D2D);      // Gris oscuro
+  static const Color errorColor = Color(0xFFF44336);
+  static const Color successColor = Color(0xFF4CAF50);
+  static const Color warningColor = Color(0xFFFFC107);
 
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
-        primary: primaryColor,
-        secondary: secondaryColor,
-        surface: surfaceColor,
-        error: errorColor,
+      colorScheme: ColorScheme(
         brightness: Brightness.light,
+        primary: primaryColor,
+        onPrimary: Colors.white,
+        secondary: secondaryColor,
+        onSecondary: accentColor,
+        surface: surfaceColor,
+        onSurface: Colors.white,
+        error: errorColor,
+        onError: Colors.white,
       ),
-      textTheme: GoogleFonts.poppinsTextTheme(),
+      scaffoldBackgroundColor: backgroundColor,
+      textTheme: GoogleFonts.poppinsTextTheme().apply(
+        bodyColor: Colors.white,
+        displayColor: Colors.white,
+      ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.white,
+        backgroundColor: accentColor,
+        foregroundColor: primaryColor,
         elevation: 0,
         centerTitle: true,
       ),
@@ -44,10 +51,10 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.grey[100],
+        fillColor: surfaceColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: Color(0xFF444444)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -57,6 +64,7 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 2,
+        color: surfaceColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -67,13 +75,28 @@ class AppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
-        primary: secondaryColor,
-        secondary: accentColor,
+      colorScheme: ColorScheme(
         brightness: Brightness.dark,
+        primary: primaryColor,
+        onPrimary: Colors.white,
+        secondary: secondaryColor,
+        onSecondary: accentColor,
+        surface: surfaceColor,
+        onSurface: Colors.white,
+        error: errorColor,
+        onError: Colors.white,
       ),
-      textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
+      scaffoldBackgroundColor: backgroundColor,
+      textTheme: GoogleFonts.poppinsTextTheme().apply(
+        bodyColor: Colors.white,
+        displayColor: Colors.white,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: accentColor,
+        foregroundColor: primaryColor,
+        elevation: 0,
+        centerTitle: true,
+      ),
     );
   }
 }
