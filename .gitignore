@@ -46,7 +46,10 @@ package-lock.json
 # Firebase
 google-services.json
 GoogleService-Info.plist
-firebase_options.dart
+# firebase_options.dart SÍ se versiona: contiene identificadores publicos
+# del proyecto (no son secretos) y es necesario para que el equipo pueda
+# compilar y conectar a Firebase al clonar. La seguridad real la dan las
+# reglas de Firestore (firestore.rules).
 
 # IDE
 .idea/
