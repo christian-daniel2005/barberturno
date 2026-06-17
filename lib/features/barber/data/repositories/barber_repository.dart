@@ -18,13 +18,17 @@ class BarberRepository {
       _firestore.collection(AppConstants.usersCollection);
 
   Stream<List<BarberModel>> watchBarbers({bool onlyActive = false}) {
-    Query query = _barbers.orderBy('name');
+    // Filtro de igualdad únicamente; el orden se hace en el cliente
+    // para no requerir un índice compuesto en Firestore.
+    Query query = _barbers;
     if (onlyActive) {
       query = query.where('isActive', isEqualTo: true);
     }
-    return query.snapshots().map(
-          (snap) => snap.docs.map((d) => BarberModel.fromFirestore(d)).toList(),
-        );
+    return query.snapshots().map((snap) {
+      final list = snap.docs.map((d) => BarberModel.fromFirestore(d)).toList();
+      list.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      return list;
+    });
   }
 
   /// Promueve un usuario registrado (por email) a barbero.

@@ -86,13 +86,28 @@ Objetivo: resolver la gestion informal de citas en barberias independientes. Cad
 
 ### Funcionalidades del Sistema
 1. Autenticacion de usuarios           [HECHO]
-2. Gestion de reservas                 [pendiente]
-3. Motor de disponibilidad de horarios [pendiente]
-4. Notificaciones de confirmacion      [pendiente]
+2. Gestion de reservas                 [HECHO]
+3. Motor de disponibilidad de horarios [HECHO - availability_engine.dart]
+4. Notificaciones de confirmacion      [HECHO - in-app en tiempo real]
 5. Base de datos centralizada          [HECHO - Firestore]
 
+### Decision tecnica: notificaciones (V1)
+Las "notificaciones de confirmacion" de la V1 se resuelven con actualizacion
+en tiempo real dentro de la app (Firestore streams): al reservar se muestra
+aviso de exito y el estado de la cita cambia solo (Pendiente -> Confirmada)
+en "Mis citas". No se usan notificaciones push porque:
+- Push entre dispositivos (barbero -> cliente) requiere Firebase Cloud
+  Messaging + Cloud Functions, que exigen el plan Blaze (de pago).
+- Las notificaciones locales NO cruzan dispositivos, asi que no resuelven
+  el caso de uso real (avisar al cliente cuando el barbero confirma).
+El documento del MVP ubica los "recordatorios automaticos" en la V2; las
+push reales se implementaran ahi (FCM + Cloud Function al cambiar estado).
+
+### MVP v1: COMPLETO (20/20 funciones, notificaciones via in-app real-time)
+
 ### Fuera del MVP v1 (NO implementar todavia)
-- V2: historial, reprogramacion, perfil avanzado, agenda semanal/mensual, estadisticas, reportes, recordatorios automaticos
+- V2: historial, reprogramacion, perfil avanzado, agenda semanal/mensual,
+  estadisticas, reportes, recordatorios automaticos, notificaciones push (FCM)
 - V3: sistema de puntos, recompensas, promociones, multiples sucursales, pagos digitales
 
 ## Notas
