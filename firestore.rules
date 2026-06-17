@@ -1,0 +1,80 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===== FUNCIONES AUXILIARES =====
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+
+    function isBarber() {
+      return isAuthenticated() && getUserRole() == 'barber';
+    }
+
+    // ===== USUARIOS =====
+    match /users/{userId} {
+      // Cualquier usuario autenticado puede leer perfiles
+      allow read: if isAuthenticated();
+      // Solo el propio usuario puede actualizar su perfil
+      allow update: if isOwner(userId);
+      // Solo admins pueden crear/eliminar usuarios
+      allow create: if isAuthenticated();
+      allow delete: if isAdmin();
+    }
+
+    // ===== SERVICIOS =====
+    match /services/{serviceId} {
+      // Todos los autenticados pueden ver servicios
+      allow read: if isAuthenticated();
+      // Solo admins pueden crear/editar/eliminar servicios
+      allow write: if isAdmin();
+    }
+
+    // ===== BARBEROS =====
+    match /barbers/{barberId} {
+      allow read: if isAuthenticated();
+      // El propio barbero puede actualizar su perfil
+      allow update: if isOwner(barberId) || isAdmin();
+      allow create, delete: if isAdmin();
+    }
+
+    // ===== CITAS =====
+    match /appointments/{appointmentId} {
+      // El cliente, barbero asignado o admin pueden leer
+      allow read: if isAuthenticated() && (
+        resource.data.clientId == request.auth.uid ||
+        resource.data.barberId == request.auth.uid ||
+        isAdmin()
+      );
+      // Clientes pueden crear citas
+      allow create: if isAuthenticated() &&
+        request.resource.data.clientId == request.auth.uid;
+      // Cliente puede cancelar, barbero puede confirmar/rechazar/completar
+      allow update: if isAuthenticated() && (
+        resource.data.clientId == request.auth.uid ||
+        resource.data.barberId == request.auth.uid ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // ===== HORARIOS =====
+    match /schedules/{scheduleId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() || isBarber();
+    }
+  }
+}
