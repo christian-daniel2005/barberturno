@@ -26,13 +26,21 @@ service cloud.firestore {
 
     // ===== USUARIOS =====
     match /users/{userId} {
-      // Cualquier usuario autenticado puede leer perfiles
-      allow read: if isAuthenticated();
-      // El propio usuario edita su perfil; el admin puede cambiar roles
-      // (necesario para promover/quitar barberos).
-      allow update: if isOwner(userId) || isAdmin();
-      // Solo admins pueden crear/eliminar usuarios
-      allow create: if isAuthenticated();
+      // Privacidad: solo el propio usuario o un admin leen el perfil.
+      // (Los barberos visibles para reservar viven en la coleccion 'barbers'.)
+      allow read: if isOwner(userId) || isAdmin();
+
+      // Un usuario solo puede crear SU PROPIO documento (uid == auth.uid).
+      allow create: if isOwner(userId);
+
+      // El propio usuario edita su perfil PERO NO puede cambiar su rol
+      // (evita escalada de privilegios: que un cliente se vuelva admin).
+      // Solo el admin puede cambiar roles (para promover/quitar barberos).
+      allow update: if isAdmin() ||
+        (isOwner(userId) &&
+         request.resource.data.role == resource.data.role);
+
+      // Solo admins eliminan usuarios.
       allow delete: if isAdmin();
     }
 
