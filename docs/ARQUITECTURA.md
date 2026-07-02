@@ -1,4 +1,4 @@
-# Arquitectura del Proyecto — BarberTurno MVP v1
+-++# Arquitectura del Proyecto — BarberTurno MVP v1
 
 Documento de referencia para la explicación técnica. Describe **dónde está el
 frontend**, **dónde está el backend**, **dónde está cada módulo** y **cómo
