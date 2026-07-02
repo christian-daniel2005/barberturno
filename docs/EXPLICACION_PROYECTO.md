@@ -4,6 +4,7 @@
 
 **BarberTurno** es una app móvil hecha en Flutter para gestionar citas de barbería.
 Tiene **3 tipos de usuarios**: clientes, barberos y administradores.
+editado por eduardo..
 
 ---
 
