@@ -3,6 +3,7 @@
 Guía completa para dejar una laptop lista para desarrollar y ejecutar el
 proyecto. Pensada para Windows (que es donde se desarrolló), con notas para otros
 sistemas.
+DANIEL GAY
 
 ---
 
